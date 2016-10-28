@@ -1,19 +1,19 @@
 package net.vtst.ow.closure.compiler.strip;
 
+import com.google.javascript.jscomp.Compiler;
+import com.google.javascript.jscomp.CompilerOptions;
+import com.google.javascript.jscomp.CustomPassExecutionTime;
+import com.google.javascript.jscomp.ErrorManager;
+import com.google.javascript.jscomp.SourceFile;
+
+import net.vtst.ow.closure.compiler.util.CompilerUtils;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Collections;
-
-import net.vtst.ow.closure.compiler.util.CompilerUtils;
-
-import com.google.javascript.jscomp.Compiler;
-import com.google.javascript.jscomp.CompilerOptions;
-import com.google.javascript.jscomp.CustomPassExecutionTime;
-import com.google.javascript.jscomp.ErrorManager;
-import com.google.javascript.jscomp.JSSourceFile;
 
 /**
  * JavaScript processor which removes private definitions and contents of functions, while
@@ -47,11 +47,11 @@ public class JSFileStripper {
    * @throws IOException
    */
   public void strip(File input, File output) throws IOException {
-    JSSourceFile jsInput = JSSourceFile.fromFile(input.getAbsolutePath());
+    SourceFile jsInput = SourceFile.fromFile(input.getAbsolutePath());
     Writer writer = new BufferedWriter(new FileWriter(output));
     setupCompiler(writer);
     compiler.compile(
-        Collections.<JSSourceFile> emptyList(),
+        Collections.<SourceFile> emptyList(),
         Collections.singletonList(jsInput), 
         options);
     if (stripCompilerPass.getException() != null) throw stripCompilerPass.getException();

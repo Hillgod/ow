@@ -1,14 +1,14 @@
 package net.vtst.ow.closure.compiler.deps;
 
-import java.io.IOException;
-
-import net.vtst.ow.closure.compiler.util.TimestampKeeper;
-
 import com.google.javascript.jscomp.AbstractCompiler;
 import com.google.javascript.jscomp.DiagnosticType;
 import com.google.javascript.jscomp.JSError;
-import com.google.javascript.jscomp.JSSourceFile;
+import com.google.javascript.jscomp.SourceFile;
 import com.google.javascript.rhino.Node;
+
+import net.vtst.ow.closure.compiler.util.TimestampKeeper;
+
+import java.io.IOException;
 
 /**
  * This class extends {@code AstFactory} by re-parsing the source code if it is modified
@@ -27,7 +27,7 @@ public class AstFactoryFromModifiable extends AstFactory {
   private JSUnitProvider.IProvider provider;
 
   public AstFactoryFromModifiable(String fileName, JSUnitProvider.IProvider provider) {
-    super(JSSourceFile.fromGenerator(fileName, provider));
+    super(SourceFile.fromGenerator(fileName, provider));
     this.timestampKeeper = new TimestampKeeper(provider);
     this.fileName = fileName;
     this.provider = provider;    
@@ -44,7 +44,7 @@ public class AstFactoryFromModifiable extends AstFactory {
       // There is a bug in the implementation of SourceFile.clearCachedSource(), which
       // is called by clearAst(), because it does not reset the private fields of SourceFile.
       // To work around this, we create a new fresh source file object.
-      super.setSourceFile(JSSourceFile.fromGenerator(fileName, provider));
+      super.setSourceFile(SourceFile.fromGenerator(fileName, provider));
     }    
   }
 

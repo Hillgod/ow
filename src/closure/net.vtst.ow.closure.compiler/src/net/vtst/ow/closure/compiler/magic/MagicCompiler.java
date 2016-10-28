@@ -1,10 +1,5 @@
 package net.vtst.ow.closure.compiler.magic;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.List;
-
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.javascript.jscomp.Compiler;
@@ -13,6 +8,13 @@ import com.google.javascript.jscomp.CompilerOptions;
 import com.google.javascript.jscomp.JSModule;
 import com.google.javascript.jscomp.Result;
 import com.google.javascript.jscomp.SourceFile;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Wrapper around {@code Compiler}, in order to run a compilation by providing ASTs for externs
@@ -47,44 +49,47 @@ public class MagicCompiler {
 
   public <T extends SourceFile> void initModules(
       List<T> externs, List<JSModule> modules, CompilerOptions options) {
-    compiler.initOptions(options);
-
-    // This is not implemented, as it is just a check.
-    // compiler.checkFirstModule(modules);
-    // This is not implemented, as it only applies to empty modules.
-    // compiler.fillEmptyModules(modules);
-
-    try {
-      compiler_externs.set(compiler, makeCompilerInput(externs, true));
-
-      compiler_modules.set(compiler, modules);
-      // This is not implemented, as it applies only if there is more than on
-      // module.
-      // if (modules.size() > 1) {
-      //   try {
-      //     this.moduleGraph = new JSModuleGraph(modules);
-      //   } catch (JSModuleGraph.ModuleDependenceException e) {
-      //     // problems with the module format.  Report as an error.  The
-      //     // message gives all details.
-      //     report(JSError.make(MODULE_DEPENDENCY_ERROR,
-      //             e.getModule().getName(), e.getDependentModule().getName()));
-      //     return;
-      //   }
-      // } else {
-      //   this.moduleGraph = null;
-      // }
-      // This call initBasedOnOptions and initInputsByIdMap.
-      compiler.rebuildInputsFromModules();
-      // this.inputs = Compiler.getAllInputsFromModules(modules);
-      // This is not useful for the options we run.
-      // compiler.initBasedOnOptions();
-  
-      // compiler.initInputsByIdMap();
-    } catch (IllegalArgumentException e) {
-      throw new MagicException(e);
-    } catch (IllegalAccessException e) {
-      throw new MagicException(e);      
-    }
+	throw new RuntimeException("Just fucking with things");
+//    compiler.initModules(externs, modules, options);
+//    
+//    System.out.println("WHEEE");
+//
+//    // This is not implemented, as it is just a check.
+//    // compiler.checkFirstModule(modules);
+//    // This is not implemented, as it only applies to empty modules.
+//    // compiler.fillEmptyModules(modules);
+//
+//    try {
+//      compiler_externs.set(compiler, makeCompilerInput(externs, true));
+//
+//      compiler_modules.set(compiler, modules);
+//      // This is not implemented, as it applies only if there is more than on
+//      // module.
+//      // if (modules.size() > 1) {
+//      //   try {
+//      //     this.moduleGraph = new JSModuleGraph(modules);
+//      //   } catch (JSModuleGraph.ModuleDependenceException e) {
+//      //     // problems with the module format.  Report as an error.  The
+//      //     // message gives all details.
+//      //     report(JSError.make(MODULE_DEPENDENCY_ERROR,
+//      //             e.getModule().getName(), e.getDependentModule().getName()));
+//      //     return;
+//      //   }
+//      // } else {
+//      //   this.moduleGraph = null;
+//      // }
+//      // This call initBasedOnOptions and initInputsByIdMap.
+//      compiler.rebuildInputsFromModules();
+//      // this.inputs = Compiler.getAllInputsFromModules(modules);
+//      // This is not useful for the options we run.
+//      // compiler.initBasedOnOptions();
+//  
+//      // compiler.initInputsByIdMap();
+//    } catch (IllegalArgumentException e) {
+//      throw new MagicException(e);
+//    } catch (IllegalAccessException e) {
+//      throw new MagicException(e);      
+//    }
   }
 
   public <T extends SourceFile> Result compileModules(List<T> externs, List<JSModule> modules, CompilerOptions options) {
@@ -103,7 +108,8 @@ public class MagicCompiler {
   }
   
   private Result compile() {
-    try {
+	try {
+    	
       Object result = compiler_compile.invoke(compiler);
       if (result instanceof Result) return (Result) result;
       return null;
@@ -121,7 +127,7 @@ public class MagicCompiler {
   // These are the new methods.
 
   private void init(List<CompilerInput> externs, JSModule module, CompilerOptions options) {
-    compiler.initOptions(options);
+    compiler.initModules(new ArrayList<SourceFile>(), Arrays.asList(module), options);
     try {
       compiler_externs.set(compiler, externs);
       compiler_modules.set(compiler, Lists.newArrayList(module));

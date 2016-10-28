@@ -17,8 +17,8 @@ public class MagicCodePrinterBuilder {
   public Object codePrinterBuilder;
   public static Constructor<?> constructor;
   public static Method method_build;
-  public static Field field_prettyPrint;
-  public static Field field_outputTypes;
+  public static Method method_prettyPrint;
+  public static Method method_outputTypes;
   
   private static void initialize() {
     if (constructor != null) return;
@@ -26,8 +26,8 @@ public class MagicCodePrinterBuilder {
         Magic.getNestedClass(Magic.getClass("com.google.javascript.jscomp.CodePrinter"), "Builder");
     constructor = Magic.getDeclaredConstructor(cls, Node.class);
     method_build = Magic.getDeclaredMethod(cls, "build");
-    field_prettyPrint = Magic.getDeclaredField(cls, "prettyPrint");
-    field_outputTypes = Magic.getDeclaredField(cls, "outputTypes");
+    method_prettyPrint = Magic.getDeclaredMethod(cls, "setPrettyPrint", boolean.class);
+    method_outputTypes = Magic.getDeclaredMethod(cls, "setOutputTypes", boolean.class);
   }
   
   /**
@@ -39,8 +39,8 @@ public class MagicCodePrinterBuilder {
     initialize();
     try {
       codePrinterBuilder = constructor.newInstance(node);
-      field_prettyPrint.setBoolean(codePrinterBuilder, prettyPrint);
-      field_outputTypes.setBoolean(codePrinterBuilder, outputTypes);
+      method_prettyPrint.invoke(codePrinterBuilder, prettyPrint);
+      method_outputTypes.invoke(codePrinterBuilder, outputTypes);
     } catch (IllegalArgumentException e) {
       throw new MagicException(e);
     } catch (InstantiationException e) {

@@ -58,7 +58,6 @@ public class CompilerUtils {
     // These options should remain minimal, because they are used by the stripper.
     CompilerOptions options = new CompilerOptions();
     options.ideMode = true;
-    options.setRewriteNewDateGoogNow(false);
     options.setRemoveAbstractMethods(false);    
     return options;
   }

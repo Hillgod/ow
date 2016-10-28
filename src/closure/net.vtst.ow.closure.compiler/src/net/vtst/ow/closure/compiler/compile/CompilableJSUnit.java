@@ -1,16 +1,15 @@
 package net.vtst.ow.closure.compiler.compile;
 
-import java.io.File;
-import java.util.Collections;
-import java.util.List;
+import com.google.javascript.jscomp.CompilerOptions;
+import com.google.javascript.jscomp.ErrorManager;
 
-import net.vtst.ow.closure.compiler.deps.JSExtern;
 import net.vtst.ow.closure.compiler.deps.JSProject;
 import net.vtst.ow.closure.compiler.deps.JSUnit;
 import net.vtst.ow.closure.compiler.deps.JSUnitProvider.IProvider;
 
-import com.google.javascript.jscomp.CompilerOptions;
-import com.google.javascript.jscomp.ErrorManager;
+import java.io.File;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * This class extends {@code JSUnit} with methods to perform complete and incremental
@@ -36,7 +35,6 @@ public class CompilableJSUnit extends JSUnit {
   private CompilerRun run = null;
   private List<JSUnit> orderedUnits = Collections.emptyList();
   private long allDependenciesModificationStamp = -2;
-  private List<JSExtern> externs = Collections.emptyList();
   
   /**
    * Clear the cached dependencies and externs. 
