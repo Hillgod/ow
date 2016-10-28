@@ -1,23 +1,24 @@
 package net.vtst.ow.closure.compiler.dev;
-import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-
-import net.vtst.ow.closure.compiler.deps.AstFactoryFromModifiable;
-import net.vtst.ow.closure.compiler.util.CompilerUtils;
-import net.vtst.ow.closure.compiler.util.FileTreeVisitor;
-
 import com.google.javascript.jscomp.Compiler;
 import com.google.javascript.jscomp.CompilerInput;
 import com.google.javascript.jscomp.CompilerOptions;
 import com.google.javascript.jscomp.CompilerPass;
 import com.google.javascript.jscomp.DefaultPassConfig;
 import com.google.javascript.jscomp.JSModule;
-import com.google.javascript.jscomp.JSSourceFile;
 import com.google.javascript.jscomp.Scope;
+import com.google.javascript.jscomp.SourceFile;
 import com.google.javascript.rhino.Node;
 import com.google.javascript.rhino.jstype.JSType;
+
+import net.vtst.ow.closure.compiler.deps.AstFactoryFromModifiable;
+import net.vtst.ow.closure.compiler.util.CompilerUtils;
+import net.vtst.ow.closure.compiler.util.FileTreeVisitor;
+
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /*
  * Some performance measurements.
@@ -44,13 +45,13 @@ public class MainForDebug {
   
   public static void measureTime() {
     final ArrayList<File> listFiles = new ArrayList<File>();
-    final ArrayList<JSSourceFile> listSourceFiles = new ArrayList<JSSourceFile>();
+    final ArrayList<SourceFile> listSourceFiles = new ArrayList<SourceFile>();
     final ArrayList<AstFactoryFromModifiable> listAsts = new ArrayList<AstFactoryFromModifiable>(); 
     FileTreeVisitor.Simple<RuntimeException> visitor = new FileTreeVisitor.Simple<RuntimeException>() {
       public void visitFile(File file) {
         if (!CompilerUtils.isJavaScriptFile(file)) return;
         listFiles.add(file);
-        JSSourceFile sourceFile = JSSourceFile.fromFile(file);
+        SourceFile sourceFile = SourceFile.fromFile(file);
         listSourceFiles.add(sourceFile);
         //listAsts.add(new JsAstFactoryFromFile(file));
       }
@@ -74,7 +75,7 @@ public class MainForDebug {
       Compiler compiler = CompilerUtils.makeCompiler(CompilerUtils.makePrintingErrorManager(System.out));
       CompilerOptions options = CompilerUtils.makeOptionsForParsingAndErrorReporting();
       options.checkTypes = true;
-      compiler.compile(new JSSourceFile[]{}, new JSModule[]{module}, options);
+      compiler.compileModules(new ArrayList<SourceFile>(), Arrays.asList(module), options);
       System.out.println(compiler.toSource().length());
     }
     long tf = System.nanoTime();
@@ -108,8 +109,8 @@ INFO: processDefines
     CompilerOptions options = CompilerUtils.makeOptionsForParsingAndErrorReporting();
     compiler.initOptions(options);
     
-    JSSourceFile extern = JSSourceFile.fromCode("externs.js", "");
-    compiler.compile(extern, new JSModule[]{module}, options);
+    SourceFile extern = SourceFile.fromCode("externs.js", "");
+    compiler.compileModules(Arrays.asList(extern), Arrays.asList(module), options);
     System.out.println(compiler.toSource());
   }
   

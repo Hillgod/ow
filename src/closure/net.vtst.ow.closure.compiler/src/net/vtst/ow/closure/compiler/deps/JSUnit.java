@@ -175,4 +175,9 @@ public class JSUnit implements DependencyInfo {
    * elsewhere.
    */
   public int dependencyIndex;
+
+  @Override
+  public boolean isModule() {
+  	return false;
+  }
 }

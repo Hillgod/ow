@@ -13,6 +13,7 @@ import com.google.javascript.rhino.Node;
  */
 public class NamespaceProvidersPass implements HotSwapCompilerPass {
   
+  @SuppressWarnings("unused")
   private AbstractCompiler compiler;
   private NamespaceProvidersMap map;
   private CodingConvention codingConvention;

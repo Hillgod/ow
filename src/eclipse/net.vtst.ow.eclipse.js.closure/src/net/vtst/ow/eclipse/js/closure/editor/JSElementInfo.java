@@ -1,15 +1,5 @@
 package net.vtst.ow.eclipse.js.closure.editor;
 
-import java.util.Set;
-
-import net.vtst.ow.closure.compiler.compile.CompilerRun;
-import net.vtst.ow.eclipse.js.closure.OwJsClosureImages;
-import net.vtst.ow.eclipse.js.closure.OwJsClosureMessages;
-import net.vtst.ow.eclipse.js.closure.OwJsClosurePlugin;
-import net.vtst.ow.eclipse.js.closure.editor.contentassist.IAdditionalProposalInfoProvider;
-import net.vtst.ow.eclipse.js.closure.util.HTMLPrinter;
-import net.vtst.ow.eclipse.js.closure.util.Utils;
-
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 import com.google.javascript.jscomp.NodeUtil;
@@ -21,6 +11,16 @@ import com.google.javascript.rhino.Token;
 import com.google.javascript.rhino.jstype.FunctionType;
 import com.google.javascript.rhino.jstype.JSType;
 import com.google.javascript.rhino.jstype.ObjectType;
+
+import net.vtst.ow.closure.compiler.compile.CompilerRun;
+import net.vtst.ow.eclipse.js.closure.OwJsClosureImages;
+import net.vtst.ow.eclipse.js.closure.OwJsClosureMessages;
+import net.vtst.ow.eclipse.js.closure.OwJsClosurePlugin;
+import net.vtst.ow.eclipse.js.closure.editor.contentassist.IAdditionalProposalInfoProvider;
+import net.vtst.ow.eclipse.js.closure.util.HTMLPrinter;
+import net.vtst.ow.eclipse.js.closure.util.Utils;
+
+import java.util.Set;
 
 /**
  * Class for storing the information about a JS element.  It provides some logic which is
@@ -546,7 +546,7 @@ public class JSElementInfo implements IAdditionalProposalInfoProvider {
   private Node getFunctionNodeOfFunctionParameterNode(Node node) {
     if (node.getType() == Token.NAME) {
       Node parent = node.getParent();
-      if (parent != null && parent.getType() == Token.LP) {
+      if (parent != null && parent.getType() == Token.PARAM_LIST) {
         Node parent2 = parent.getParent();
         if (parent2 != null && parent2.getType() == Token.FUNCTION) 
           return parent2;

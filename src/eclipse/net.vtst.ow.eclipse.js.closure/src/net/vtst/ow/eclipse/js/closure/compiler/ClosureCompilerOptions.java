@@ -140,7 +140,6 @@ public class ClosureCompilerOptions {
     // options.commonJSModulePathPrefix = config.commonJSModulePathPrefix;
 
     // TODO: Only for ide mode?
-    options.setRewriteNewDateGoogNow(false);
     options.setRemoveAbstractMethods(false);
     options.checkTypes = true;
     options.setInferTypes(true);

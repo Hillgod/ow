@@ -1,9 +1,8 @@
 package net.vtst.ow.closure.compiler.deps;
 
-import java.io.File;
-
-import com.google.javascript.jscomp.JSSourceFile;
 import com.google.javascript.jscomp.SourceFile;
+
+import java.io.File;
 
 public class JSExtern extends AstFactory {
   private static final long serialVersionUID = 1L;
@@ -13,7 +12,7 @@ public class JSExtern extends AstFactory {
   }
   
   public JSExtern(File file) {
-    this(JSSourceFile.fromFile(file));
+    this(SourceFile.fromFile(file));
   }
 
 }
