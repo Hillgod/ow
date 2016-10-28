@@ -26,7 +26,7 @@ Require-Bundle: net.vtst.ow.eclipse.soy;visibility:=reexport,
 Import-Package: org.apache.commons.logging,
  org.apache.log4j,
  org.eclipse.jdt.core
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: net.vtst.ow.eclipse.soy.ui.contentassist.antlr,
  net.vtst.ow.eclipse.soy.ui.internal,
  net.vtst.ow.eclipse.soy.ui.contentassist,

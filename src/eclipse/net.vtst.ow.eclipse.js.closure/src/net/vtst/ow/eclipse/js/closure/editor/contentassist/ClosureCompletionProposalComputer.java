@@ -24,12 +24,12 @@ public class ClosureCompletionProposalComputer implements IJavaCompletionProposa
   }
   
   @Override
-  public List<? extends ICompletionProposal> computeCompletionProposals(
+  public List<ICompletionProposal> computeCompletionProposals(
       ContentAssistInvocationContext context, IProgressMonitor monitor) {
     ClosureContentAssistIncovationContext closureContext = new ClosureContentAssistIncovationContext(context);
     if (closureContext.hasNode()) {
       ClosureCompletionProposalCollector collector = new ClosureCompletionProposalCollector(closureContext);
-      return collector.getProposals();
+      return (List<ICompletionProposal>) collector.getProposals();
     } else {
       return Collections.emptyList();
     }
