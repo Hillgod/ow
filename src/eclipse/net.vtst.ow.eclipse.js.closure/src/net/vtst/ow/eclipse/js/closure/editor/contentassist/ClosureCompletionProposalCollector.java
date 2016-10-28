@@ -1,14 +1,5 @@
 package net.vtst.ow.eclipse.js.closure.editor.contentassist;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import net.vtst.ow.closure.compiler.compile.CompilerRun;
-import net.vtst.ow.eclipse.js.closure.editor.JSElementInfo;
-
 import com.google.common.collect.Lists;
 import com.google.javascript.jscomp.Scope;
 import com.google.javascript.jscomp.Scope.Var;
@@ -18,6 +9,17 @@ import com.google.javascript.rhino.Node;
 import com.google.javascript.rhino.jstype.JSType;
 import com.google.javascript.rhino.jstype.ObjectType;
 import com.google.javascript.rhino.jstype.UnionType;
+
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
+
+import net.vtst.ow.closure.compiler.compile.CompilerRun;
+import net.vtst.ow.eclipse.js.closure.editor.JSElementInfo;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Helper class for creating and collecting closure completion proposals.
@@ -35,7 +37,7 @@ public class ClosureCompletionProposalCollector {
    * Get all the completion proposals which are valid in the given context.
    * @return  The list of the completion proposals.
    */
-  public List<ClosureCompletionProposal> getProposals() {
+  public List<? extends ICompletionProposal> getProposals() {
     CompilerRun run = context.getCompilerRun();
     List<String> qualifiedName = context.getPrefixAsQualifiedName();
     if (qualifiedName.isEmpty()) {
